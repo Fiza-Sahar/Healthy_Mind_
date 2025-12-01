@@ -24,11 +24,11 @@ jobs:
       - name: Build Project
         run: npm run build   # Generates 'build' folder
 
-      # Upload only the static files
+      # Upload only the static files to artifact
       - name: Upload site files
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2   # Updated to v2 to avoid deprecated error
         with:
-          path: build       # Change this to your static folder
+          path: build       # Replace 'build' with your static folder if different
 
   deploy:
     runs-on: ubuntu-latest
