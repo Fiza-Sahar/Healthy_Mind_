@@ -2,8 +2,8 @@ name: Deploy Website to GitHub Pages
 
 on:
   push:
-    branches: ["master"]   # master branch par push hote hi deploy hoga
-  workflow_dispatch: {}     # manual run ka option
+    branches: ["master"]    # Change to 'main' if your branch is main
+  workflow_dispatch: {}      # Manual run option
 
 permissions:
   contents: read
@@ -17,12 +17,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Agar aapki files root me hain to path '.' rahega
-      # Agar public/dist/build me hain to yaha path change kar den
+      # Build step (if using React/Vue/Angular, otherwise skip)
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build   # Generates 'build' folder
+
+      # Upload only the static files
       - name: Upload site files
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v1
         with:
-          path: '.'   
+          path: build       # Change this to your static folder
 
   deploy:
     runs-on: ubuntu-latest
