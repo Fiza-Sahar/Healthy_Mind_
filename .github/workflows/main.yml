@@ -1,0 +1,34 @@
+name: Deploy Website to GitHub Pages
+
+on:
+  push:
+    branches: ["master"]   # master branch par push hote hi deploy hoga
+  workflow_dispatch: {}     # manual run ka option
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Agar aapki files root me hain to path '.' rahega
+      # Agar public/dist/build me hain to yaha path change kar den
+      - name: Upload site files
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: '.'   
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-upload
+    environment:
+      name: github-pages
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
