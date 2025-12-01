@@ -1,9 +1,9 @@
-name: Deploy Website to GitHub Pages
+name: Deploy Healthy_Mind_ Website to GitHub Pages
 
 on:
   push:
-    branches: ["master"]    # or 'main' if your branch is main
-  workflow_dispatch: {}
+    branches: ["master"]    # Change to "main" if your default branch is main
+  workflow_dispatch: {}      # Manual run option
 
 permissions:
   contents: read
@@ -14,16 +14,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      # Step 1: Checkout your repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Project
-        run: npm run build   # Generates 'build' folder
-
+      # Step 2: Deploy directly to GitHub Pages from the root folder
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
-          folder: build   # Replace with your static folder
+          folder: '.'    # Root folder contains your HTML/CSS/JS files
